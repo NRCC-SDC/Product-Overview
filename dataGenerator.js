@@ -113,20 +113,40 @@ const generateStylesData = (num) => {
 };
 
 const saveProductData = (numOfRecords) => {
-  const data = JSON.stringify(generateProductData(numOfRecords));
-  fs.writeFile('data/products/product-data.json', data, (err) => {
-    if (err) throw err;
-    console.log('The products file has been saved!'); // eslint-disable-line no-console
-  });
+  let fileNum = 1;
+  let remainingRecords = numOfRecords;
+
+  while (remainingRecords >= 100000) {
+    const data = JSON.stringify(generateProductData(100000));
+    fs.writeFileSync(`data/products/products${fileNum}.json`, data);
+    remainingRecords -= 100000;
+    fileNum++; // eslint-disable-line no-plusplus
+  }
+  if (remainingRecords > 0) {
+    const data = JSON.stringify(generateStylesData(remainingRecords));
+    fs.writeFileSync(`data/products/products${fileNum}.json`, data);
+  }
 };
 
 const saveStylesData = (numOfRecords) => {
-  const data = JSON.stringify(generateStylesData(numOfRecords));
-  fs.writeFile('data/styles/styles-data.json', data, (err) => {
-    if (err) throw err;
-    console.log('The styles file has been saved!'); // eslint-disable-line no-console
-  });
+  let fileNum = 1;
+  let remainingRecords = numOfRecords;
+
+  while (remainingRecords >= 100000) {
+    const data = JSON.stringify(generateStylesData(100000));
+    fs.writeFileSync(`data/styles/styles${fileNum}.json`, data);
+    remainingRecords -= 100000;
+    fileNum++; // eslint-disable-line no-plusplus
+  }
+  if (remainingRecords > 0) {
+    const data = JSON.stringify(generateStylesData(remainingRecords));
+    fs.writeFileSync(`data/styles/styles${fileNum}.json`, data);
+  }
 };
 
-saveProductData(10);
-saveStylesData(10);
+const generateData = (numOfMillions) => {
+  saveProductData(numOfMillions * 1000000);
+  saveStylesData(numOfMillions * 1000000);
+};
+
+generateData(10);
