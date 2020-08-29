@@ -37,11 +37,11 @@ const stylesSchema = mongoose.Schema({
   ],
 });
 
-const Product = mongoose.model('Product', productSchema);
+const Products = mongoose.model('products', productSchema);
 
-const Styles = mongoose.model('Styles', stylesSchema);
+const Styles = mongoose.model('styles', stylesSchema);
 
 module.exports = {
-  Product,
+  Products,
   Styles,
 };
