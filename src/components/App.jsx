@@ -104,11 +104,11 @@ const App = (props) => {
 };
 
 App.defaultProps = {
-  productId: 1,
+  productId: '1',
 };
 
 App.propTypes = {
-  productId: PropTypes.number,
+  productId: PropTypes.string,
 };
 
 export default App;

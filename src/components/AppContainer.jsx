@@ -25,10 +25,16 @@ const AppContainer = () => (
   </StylesProvider>
 );
 
+AppContainer.defaultProps = {
+  match: {
+    params: 1,
+  },
+};
+
 AppContainer.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.number.isRequired,
-  }).isRequired,
+  }),
 };
 
 export default AppContainer;
