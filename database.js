@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost:27017/product-overview', { useNewUrlParser: true, useUnifiedTopology: true });
 
-const productSchema = mongoose.Schema({
+const productsSchema = mongoose.Schema({
   id: Number,
   name: String,
   slogan: String,
@@ -37,7 +37,7 @@ const stylesSchema = mongoose.Schema({
   ],
 });
 
-const Products = mongoose.model('products', productSchema);
+const Products = mongoose.model('products', productsSchema);
 
 const Styles = mongoose.model('styles', stylesSchema);
 

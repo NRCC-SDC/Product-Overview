@@ -1,7 +1,7 @@
 const faker = require('faker');
 const fs = require('fs');
 
-let style_id = 1; // eslint-disable-line camelcase
+let style_id = 0; // eslint-disable-line camelcase
 
 const generateProduct = () => {
   const amountOfFeatures = Math.floor(Math.random() * 5);
@@ -28,6 +28,7 @@ const generateProduct = () => {
 
 const generateStyles = () => {
   const amountOfStyles = Math.ceil(Math.random() * 8);
+  const setOfStyles = {};
   const styles = [];
 
   for (let i = 0; i < amountOfStyles; i++) { // eslint-disable-line no-plusplus
@@ -87,66 +88,63 @@ const generateStyles = () => {
     style_id++; // eslint-disable-line
     styles.push(style);
   }
-
-  return styles;
+  setOfStyles.results = styles;
+  return setOfStyles;
 };
 
-const generateProductData = (num) => {
+const generateRecords = (num, collectionName, callback, fileNumber) => {
   const data = [];
   for (let i = 0; i < num; i++) { // eslint-disable-line no-plusplus
-    const entry = generateProduct();
-    entry.id = i + 1;
+    const entry = callback();
+    entry.id = (fileNumber * 100000) + i;
     data.push(entry);
   }
   return data;
-};
+}
 
-const generateStylesData = (num) => {
-  const data = [];
-  for (let i = 0; i < num; i++) { // eslint-disable-line no-plusplus
-    const entry = {};
-    entry.results = generateStyles();
-    entry.product_id = i + 1;
-    data.push(entry);
-  }
-  return data;
-};
-
-const saveProductData = (numOfRecords) => {
-  let fileNum = 1;
-  let remainingRecords = numOfRecords;
+const writeRecords = (num, collectionName, callback) => {
+  let fileNum = 0;
+  let remainingRecords = num;
 
   while (remainingRecords >= 100000) {
-    const data = JSON.stringify(generateProductData(100000));
-    fs.writeFileSync(`data/products/products${fileNum}.json`, data);
+    const data = JSON.stringify(generateRecords(100000, collectionName, callback, fileNum));
+    fs.writeFileSync(`data/${collectionName}/${collectionName}${fileNum}.json`, data);
     remainingRecords -= 100000;
     fileNum++; // eslint-disable-line no-plusplus
   }
   if (remainingRecords > 0) {
-    const data = JSON.stringify(generateStylesData(remainingRecords));
-    fs.writeFileSync(`data/products/products${fileNum}.json`, data);
+    const data = JSON.stringify(generateRecords(100000, collectionName, callback, fileNum));
+    fs.writeFileSync(`data/${collectionName}/${collectionName}${fileNum}.json`, data);
   }
-};
-
-const saveStylesData = (numOfRecords) => {
-  let fileNum = 1;
-  let remainingRecords = numOfRecords;
-
-  while (remainingRecords >= 100000) {
-    const data = JSON.stringify(generateStylesData(100000));
-    fs.writeFileSync(`data/styles/styles${fileNum}.json`, data);
-    remainingRecords -= 100000;
-    fileNum++; // eslint-disable-line no-plusplus
-  }
-  if (remainingRecords > 0) {
-    const data = JSON.stringify(generateStylesData(remainingRecords));
-    fs.writeFileSync(`data/styles/styles${fileNum}.json`, data);
-  }
-};
+}
 
 const generateData = (numOfMillions) => {
-  saveProductData(numOfMillions * 1000000);
-  saveStylesData(numOfMillions * 1000000);
+  writeRecords(numOfMillions * 1000000, 'products', generateProduct);
+  writeRecords(numOfMillions * 1000000, 'styles', generateStyles);
 };
 
-generateData(10);
+const start = Date.now();
+generateData(1);
+const timeTaken = Date.now() - start;
+console.log('time taken', timeTaken);
+
+//  10M records generated into 1 file (much slower)
+
+// const writeRecords = (num, collectionName, callback) => {
+//   for (let i = 0; i < num; i++) {
+//     const data = JSON.stringify(callback(), null, 1);
+//     fs.appendFileSync(`data/${collectionName}/${collectionName}.json`, data);
+//   }
+// };
+
+// const generateData = (numOfMillions) => {
+//   console.log('here we go!')
+//   writeRecords(numOfMillions * 1000000, 'styles', generateStyles);
+//   writeRecords(numOfMillions * 1000000, 'products', generateProduct);
+//   console.log('done!');
+// };
+
+// let start = Date.now();
+// generateData(10);
+// let timeTaken = Date.now() - start;
+// console.log('time taken', timeTaken);
