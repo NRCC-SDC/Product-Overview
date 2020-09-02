@@ -100,7 +100,7 @@ const generateRecords = (num, collectionName, callback, fileNumber) => {
     data.push(entry);
   }
   return data;
-}
+};
 
 const writeRecords = (num, collectionName, callback) => {
   let fileNum = 0;
@@ -116,7 +116,7 @@ const writeRecords = (num, collectionName, callback) => {
     const data = JSON.stringify(generateRecords(100000, collectionName, callback, fileNum));
     fs.writeFileSync(`data/${collectionName}/${collectionName}${fileNum}.json`, data);
   }
-}
+};
 
 const generateData = (numOfMillions) => {
   writeRecords(numOfMillions * 1000000, 'products', generateProduct);
@@ -124,11 +124,13 @@ const generateData = (numOfMillions) => {
 };
 
 const start = Date.now();
-generateData(1);
+generateData(10);
 const timeTaken = Date.now() - start;
-console.log('time taken', timeTaken);
+console.log('time taken', timeTaken / 60000, 'min'); // eslint-disable-line no-console
 
-//  10M records generated into 1 file (much slower)
+//  Time taken to generate 1M records - 1.8877 min.
+
+//  10M records generated into 1 file (much slower - 5.38 min.)
 
 // const writeRecords = (num, collectionName, callback) => {
 //   for (let i = 0; i < num; i++) {
@@ -139,8 +141,8 @@ console.log('time taken', timeTaken);
 
 // const generateData = (numOfMillions) => {
 //   console.log('here we go!')
-//   writeRecords(numOfMillions * 1000000, 'styles', generateStyles);
-//   writeRecords(numOfMillions * 1000000, 'products', generateProduct);
+//   writeRecords(numOfMillions * 1000000, 'Styles', generateStyles);
+//   writeRecords(numOfMillions * 1000000, 'Products', generateProduct);
 //   console.log('done!');
 // };
 
