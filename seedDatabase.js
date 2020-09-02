@@ -1,22 +1,21 @@
-const path = require('path');
-const { Seeder } = require('mongo-seeding');
+const { execSync } = require('child_process');
 
-const config = {
-  database: 'mongodb://127.0.0.1:27017/product-overview',
-  dropDatabase: true,
+const seedCollection = (collectionName, num) => {
+  for (let i = 0; i < num; i++) { // eslint-disable-line no-plusplus
+    const command = `mongoimport -d product-overview -c ${collectionName} --file data/${collectionName}/${collectionName}${i}.json --jsonArray`;
+    execSync(command);
+  }
 };
 
-const seeder = new Seeder(config);
+const seedDatabase = (numOfFiles) => {
+  seedCollection('products', numOfFiles);
+  seedCollection('styles', numOfFiles);
+};
 
-const collections = seeder.readCollectionsFromPath(path.resolve('./data'));
+const start = Date.now();
+seedDatabase(100);
+const timeTaken = Date.now() - start;
+console.log('time taken', timeTaken / 60000, 'min'); // eslint-disable-line no-console
 
-console.log(collections);
-
-seeder
-  .import(collections)
-  .then(() => {
-    console.log('success!'); // eslint-disable-line no-console
-  })
-  .catch((err) => {
-    console.log('error', err); // eslint-disable-line no-console
-  });
+//  Time taken for 1M documents: 4.5 min.
+//  Time taken for 10M documents: 44.44 min.
