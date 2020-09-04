@@ -18,7 +18,7 @@ const productsSchema = mongoose.Schema({
 });
 
 const stylesSchema = mongoose.Schema({
-  product_id: Number,
+  id: Number,
   results: [
     {
       style_id: Number,
@@ -38,8 +38,10 @@ const stylesSchema = mongoose.Schema({
 });
 
 const Products = mongoose.model('products', productsSchema);
+Products.collection.createIndex({ id: 1 }, { unique: true });
 
 const Styles = mongoose.model('styles', stylesSchema);
+Styles.collection.createIndex({ id: 1 }, { unique: true });
 
 module.exports = {
   Products,

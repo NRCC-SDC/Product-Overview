@@ -92,7 +92,7 @@ const generateStyles = () => {
   return setOfStyles;
 };
 
-const generateRecords = (num, collectionName, callback, fileNumber) => {
+const generateRecords = (num, callback, fileNumber) => {
   const data = [];
   for (let i = 0; i < num; i++) { // eslint-disable-line no-plusplus
     const entry = callback();
@@ -107,13 +107,13 @@ const writeRecords = (num, collectionName, callback) => {
   let remainingRecords = num;
 
   while (remainingRecords >= 100000) {
-    const data = JSON.stringify(generateRecords(100000, collectionName, callback, fileNum));
+    const data = JSON.stringify(generateRecords(100000, callback, fileNum));
     fs.writeFileSync(`data/${collectionName}/${collectionName}${fileNum}.json`, data);
     remainingRecords -= 100000;
     fileNum++; // eslint-disable-line no-plusplus
   }
   if (remainingRecords > 0) {
-    const data = JSON.stringify(generateRecords(100000, collectionName, callback, fileNum));
+    const data = JSON.stringify(generateRecords(100000, callback, fileNum));
     fs.writeFileSync(`data/${collectionName}/${collectionName}${fileNum}.json`, data);
   }
 };
