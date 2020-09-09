@@ -38,10 +38,16 @@ const stylesSchema = mongoose.Schema({
 });
 
 const Products = mongoose.model('products', productsSchema);
-Products.collection.createIndex({ id: 1 }, { unique: true });
+// Products.collection.createIndex({ id: 1 }, { unique: true });
+// console.log('Products index created');
+// Products.collection.dropIndexes();
+// Console.log('Products index dropped');
 
 const Styles = mongoose.model('styles', stylesSchema);
-Styles.collection.createIndex({ id: 1 }, { unique: true });
+// Styles.collection.createIndex({ id: 1 }, { unique: true });
+// console.log('Style index created');
+// Styles.collection.dropIndexes();
+// Console.log('Style index dropped');
 
 module.exports = {
   Products,

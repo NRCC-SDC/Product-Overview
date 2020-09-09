@@ -128,9 +128,10 @@ generateData(10);
 const timeTaken = Date.now() - start;
 console.log('time taken', timeTaken / 60000, 'min'); // eslint-disable-line no-console
 
-//  Time taken to generate 1M records - 1.8877 min.
+//  Time taken to generate 1M records - 1.8877 min. || 1.6240 min.
+//  Time taken to generate 10M records - 18 min || 22.515 min.
 
-//  10M records generated into 1 file (much slower - 5.38 min.)
+//  Version using appendFile, appending one object at a time (much slower - 5.38 min.)
 
 // const writeRecords = (num, collectionName, callback) => {
 //   for (let i = 0; i < num; i++) {
@@ -150,3 +151,53 @@ console.log('time taken', timeTaken / 60000, 'min'); // eslint-disable-line no-c
 // generateData(10);
 // let timeTaken = Date.now() - start;
 // console.log('time taken', timeTaken);
+
+//  incomplete version using appendFile and batches (formatting not correct)
+
+// const generateRecords = (num, callback, fileNumber) => {
+//   let data = '';
+//   for (let i = 0; i < num; i++) { // eslint-disable-line no-plusplus
+//     const entry = callback();
+//     entry.id = (fileNumber * 100000) + i;
+//     if (i === (num - 1)) {
+//       data += JSON.stringify(entry);
+//     } else {
+//       data += JSON.stringify(entry) + ', ';
+//     }
+//   }
+//   return data;
+// };
+
+// const writeRecords = (num, collectionName, callback) => {
+//   fs.writeFileSync(`data/${collectionName}/${collectionName}.json`, '[')
+//   let fileNum = 0;
+//   let remainingRecords = num;
+
+//   while (remainingRecords >= 0) {
+//     console.log(collectionName, 'remainingRecords: ', remainingRecords);
+//     let data;
+
+//     if (remainingRecords <= 100000) {
+//       data = JSON.stringify(generateRecords(100000, callback, fileNum)) + ']';
+//     } else {
+//       data = JSON.stringify(generateRecords(100000, callback, fileNum)) + ', ';
+//     }
+//     fs.appendFileSync(`data/${collectionName}/${collectionName}.json`, data);
+//     remainingRecords -= 100000;
+//     fileNum++; // eslint-disable-line no-plusplus
+//   }
+// };
+
+// const generateData = (numOfMillions) => {
+//   console.log('here we go!')
+//   writeRecords(numOfMillions * 1000000, 'Styles', generateStyles);
+//   writeRecords(numOfMillions * 1000000, 'Products', generateProduct);
+//   console.log('done!');
+// };
+
+// let start = Date.now();
+// generateData(1);
+// let timeTaken = Date.now() - start;
+// console.log('time taken', timeTaken / 60000, 'min.');
+
+// //Time for 1M: 2.6224 min.
