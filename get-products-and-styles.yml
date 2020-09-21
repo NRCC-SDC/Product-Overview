@@ -1,0 +1,18 @@
+config:
+  target: "http://localhost:8080"
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      name: Sustained load
+  processor: "./generateRandomNumber.js"
+scenarios:
+  # We define one scenario:
+  - name: "Display product and associated styles"
+    flow:
+      - function: "generateRandomNumber"
+      # Get the details of the product:
+      - get:
+          url: "/products/{{product_id}}"
+      # Get the associated styles for the product:
+      - get:
+          url: "/products/{{product_id}}/styles"
