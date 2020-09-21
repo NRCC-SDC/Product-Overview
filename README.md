@@ -21,7 +21,7 @@
 
 I created the server endpoints and generated the database records you see rendered below.
 
-![Screenshot](https://i.imgur.com/gklQsHR.png)
+![Screenshot](https://github.com/NRCC-SDC/Product-Overview/blob/master/legacy-front-end.png)
 
 ## Usage
 
