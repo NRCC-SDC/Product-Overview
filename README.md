@@ -19,7 +19,7 @@
 
 ## Screenshot of Legacy Front-End
 
-I created the server endpoints and generated the database records you see rendered below.
+I created the Express routes and generated the database records you see rendered below.
 
 ![Screenshot](https://github.com/NRCC-SDC/Product-Overview/blob/master/legacy-front-end.png)
 
