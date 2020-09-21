@@ -29,7 +29,7 @@ To run this repo, you will need to install dependencies and run appropriate scri
 
 ## Requirements
 
-- Node 6.13.0
+- Node
 - npm
 - MongoDB
 
