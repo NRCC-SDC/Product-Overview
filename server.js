@@ -1,3 +1,4 @@
+require('newrelic');
 const express = require('express');
 const { Products, Styles } = require('./database');
 
@@ -62,7 +63,7 @@ app.get('/products/:product_id/styles', (req, res) => {
 //  Time taken: 134.138 sec (socket hangs up before it can be sent)
 //  Time taken: 237.964 sec (socket hangs up before it can be sent)
 
-//After Indexing: 8.217 sec
+//  After Indexing: 8.217 sec
 
 app.listen(port, () => {
   console.log(`server is listening on port ${port}`); // eslint-disable-line no-console
